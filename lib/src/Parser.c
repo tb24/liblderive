@@ -12,7 +12,7 @@
 
 
 // Hackery - Please read up on re-entrant modes for bison and flex documentation
-int yyparse(void *param);
+int yyparse(ParserParam *param);
 int yylex_init_extra(void*data, void* scanner);
 int yylex_destroy(void* scanner);
 typedef struct yy_buffer_state *YY_BUFFER_STATE;

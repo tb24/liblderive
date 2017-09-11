@@ -5,8 +5,8 @@
 #include <stdlib.h>
 
 #include "clsys.h"
-#include "LSystem.h"
 #include "Errors.h"
+#include "LSystem.h"
 #include "Defines.h"
 #include "LinkedList.h"
 #include "y.tab.h" // For YYLTYPE (via %bison-locations)

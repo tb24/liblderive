@@ -30,7 +30,7 @@
 typedef void* yyscan_t;
 #endif
 
-typedef struct tagParserParam
+typedef struct ParserParam
 {
     yyscan_t   scanner;
     HLSystem*  parseValue; // The sematic value of a successful parse    

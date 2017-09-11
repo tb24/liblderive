@@ -1,5 +1,4 @@
 %{
-
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
@@ -7,8 +6,8 @@
 
 #include "clsys.h"
 #include "Memos.h"
-#include "Parser.h"
 #include "Errors.h"
+#include "Parser.h"
 #include "Defines.h"
 #include "AstNode.h"
 #include "LSystem.h"
@@ -21,24 +20,28 @@
 
 // It's a reentrant scanner with locations and a custom parameter 
 // Thus, three arguments
-int yylex(YYSTYPE *lvalp, YYLTYPE *yylloc, Memos* memos);
 
 void yyerror(YYLTYPE* locp, ParserParam* pparam, const char *msg)
 {
   addParseError(pparam->errors, lsys_error_parsing_error, (char*)msg, *locp);
 }
 
-#define YYLEX_PARAM    ((ParserParam*)pparam)->scanner
+int yylex(YYSTYPE *lvalp, YYLTYPE *yylloc, ParserParam* pparam);
+
 %}
 
-%pure-parser
+%code requires{
+typedef struct ParserParam ParserParam;
+}
+
+
+%define api.pure full
 %error-verbose
 %locations
-//%file-prefix="bison.liblsys"
 %defines
 %yacc
 
-%parse-param { ParserParam* pparam }
+%param { ParserParam* pparam }
 
 
 %token tAXIOM tLENGTH tDEPTH tSEED tCONSIDER tIGNORE

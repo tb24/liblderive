@@ -10,6 +10,7 @@
 #include "LinkedList.h"
 
 // For YYLTYPE
+#include "Parser.h"
 #include "y.tab.h"
 
 typedef enum {

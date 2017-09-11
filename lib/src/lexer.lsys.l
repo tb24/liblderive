@@ -42,8 +42,6 @@ id {alpha}({alpha}|{digit}|\_)*
 %option extra-type="Memos*"
 %option yylineno
 
-%option header-file="flex.liblsys.h"
-
 %%
 
 <COMMENT>"//".*\n
