@@ -12,8 +12,8 @@ set(VERSION_MAJOR 1)
 set(VERSION_MINOR 0)
 set(VERSION_PATCH 0)
 
-include_directories ("${PROJECT_SOURCE_DIR}/lib/include")
-add_subdirectory (lib) 
+include_directories ("${PROJECT_SOURCE_DIR}/include")
+add_subdirectory (src) 
 
 # add the executable
 add_executable (Test test/main.test.c)
