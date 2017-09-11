@@ -20,13 +20,13 @@
 
 // It's a reentrant scanner with locations and a custom parameter 
 // Thus, three arguments
+int yylex(YYSTYPE *lvalp, YYLTYPE *yylloc, ParserParam* pparam);
 
 void yyerror(YYLTYPE* locp, ParserParam* pparam, const char *msg)
 {
   addParseError(pparam->errors, lsys_error_parsing_error, (char*)msg, *locp);
 }
 
-int yylex(YYSTYPE *lvalp, YYLTYPE *yylloc, ParserParam* pparam);
 
 %}
 
