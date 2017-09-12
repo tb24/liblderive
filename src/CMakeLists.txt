@@ -24,6 +24,7 @@ add_library(lderive
 	LGL.c
 	LinkedList.c
 	LRuleNeighbors.c
+	LSContext.c
 	LSModules.c
 	LString.c
 	LSystem.c
