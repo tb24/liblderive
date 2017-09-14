@@ -35,12 +35,12 @@ id {alpha}({alpha}|{digit}|\_)*
 
 %start COMMENT SCOMMENT ECOMMENT SYMBOL EXPRESSION
 %option reentrant noyywrap never-interactive nounistd
-%option bison-locations
+%option warn nodefault
 %option bison-bridge
-%option noinput 
-%option nounput
-%option extra-type="Memos*"
+%option bison-locations
+%option extra-type="ParserParam*"
 %option yylineno
+%option header-file="lexer.h"
 
 %%
 
@@ -115,7 +115,7 @@ id {alpha}({alpha}|{digit}|\_)*
 }
 
 {id} {
-  yylval->name = (char*)memoize(yyextra, (void*)my_strndup(yytext, MAX_LEN_IDENTIFIER));
+  yylval->name = (char*)memoize(yyextra->parseMemos, (void*)my_strndup(yytext, MAX_LEN_IDENTIFIER));
   return(tNAME);
 }
 
@@ -125,7 +125,7 @@ id {alpha}({alpha}|{digit}|\_)*
   { 
     char* buf = malloc(255 * sizeof *buf);
     sprintf(buf, "Value %s is out of range", yytext);
-    yylval->name = (char*)memoize(yyextra, (void*)my_strndup(buf, MAX_LEN_IDENTIFIER));
+    yylval->name = (char*)memoize(yyextra->parseMemos, (void*)my_strndup(buf, MAX_LEN_IDENTIFIER));
     free(buf);
     return(tFVAL_INVALID);
   }
@@ -138,7 +138,7 @@ id {alpha}({alpha}|{digit}|\_)*
   { 
     char* buf = malloc(255 * sizeof *buf);
     sprintf(buf, "Value %s truncated to zero", yytext);
-    yylval->name = (char*)memoize(yyextra, (void*)my_strndup(buf, MAX_LEN_IDENTIFIER));
+    yylval->name = (char*)memoize(yyextra->parseMemos, (void*)my_strndup(buf, MAX_LEN_IDENTIFIER));
     free(buf);
     return(tFVAL_INVALID);
   }

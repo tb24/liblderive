@@ -14,15 +14,15 @@
 #include "HLSystem.h"
 #include "LinkedList.h"
 
+#define YY_DECL int yylex(YYSTYPE *lvalp, YYLTYPE *yylloc, YYSTYPE* yyscanner, ParserParam*)
+
+#include <lexer.h>
+
 // Bison doesn't like stdbool? This should work
 #define false 0
 #define true  1
 
-// It's a reentrant scanner with locations and a custom parameter 
-// Thus, three arguments
-int yylex(YYSTYPE *lvalp, YYLTYPE *yylloc, ParserParam* pparam);
-
-void yyerror(YYLTYPE* locp, ParserParam* pparam, const char *msg)
+void yyerror(YYLTYPE* locp, ParserParam* pparam, yyscan_t scanner, const char *msg)
 {
   addParseError(pparam->errors, lsys_error_parsing_error, (char*)msg, *locp);
 }
@@ -31,17 +31,23 @@ void yyerror(YYLTYPE* locp, ParserParam* pparam, const char *msg)
 %}
 
 %code requires{
+
+#ifndef YY_TYPEDEF_YY_SCANNER_T
+#define YY_TYPEDEF_YY_SCANNER_T
+typedef void* yyscan_t;
+#endif
 typedef struct ParserParam ParserParam;
+
+
 }
 
 
 %define api.pure full
+%lex-param { yyscan_t scanner }
+%parse-param { ParserParam* pparam }
+%parse-param { yyscan_t scanner }
 %error-verbose
 %locations
-%defines
-%yacc
-
-%param { ParserParam* pparam }
 
 
 %token tAXIOM tLENGTH tDEPTH tSEED tCONSIDER tIGNORE

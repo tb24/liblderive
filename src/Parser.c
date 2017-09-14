@@ -10,14 +10,9 @@
 #include "Semantics.h"
 #include "Memos.h"
 
-
-// Hackery - Please read up on re-entrant modes for bison and flex documentation
-int yyparse(ParserParam *param);
-int yylex_init_extra(void*data, void* scanner);
-int yylex_destroy(void* scanner);
-typedef struct yy_buffer_state *YY_BUFFER_STATE;
-YY_BUFFER_STATE yy_scan_string(char* string, void* scanner);
-int yy_delete_buffer(YY_BUFFER_STATE, void* scanner);
+// From parser.lsys.y '%defines' directive
+#include <y.tab.h>
+#include <lexer.h>
 
 
 
@@ -31,7 +26,7 @@ int initParserParam(ParserParam* param, LSysErrors* errors)
     param->parseValue = NULL;
     param->errors = errors;
 
-    if( (ret = yylex_init_extra( param->parseMemos, &param->scanner ) ) )
+    if( (ret = yylex_init_extra( param, &param->scanner ) ) )
       return memos_free(param->parseMemos), ret;
      
     return ret;
@@ -62,7 +57,7 @@ ILSystem* parseFromString(char* lsysString, LSysErrors* errors)
   state = yy_scan_string(lsysString, parseParam.scanner);
 
   // The parser sets appropriate error messages
-  if ( yyparse(&parseParam) )
+  if ( yyparse(&parseParam, parseParam.scanner) )
     return addGeneralError(
               errors, 
               lsys_error_parsing_error, 
