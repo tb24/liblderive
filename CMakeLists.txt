@@ -18,3 +18,4 @@ add_subdirectory (src)
 # add the executable
 add_executable (Test test/main.test.c)
 target_link_libraries (Test lderive)
+target_link_libraries (Test m)
